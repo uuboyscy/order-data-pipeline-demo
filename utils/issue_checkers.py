@@ -59,7 +59,7 @@ def check_quantity_outlier(order):
             return QUANTITY_OUTLIER
     return None
 
-def checker_task(orders_df: pd.DataFrame)-> pd.DataFrame:
+def t_checker(orders_df: pd.DataFrame)-> pd.DataFrame:
     # List to collect validation issues
     issues = []
 
