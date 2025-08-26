@@ -16,7 +16,7 @@ The solution covers:
 
 ```
 wonderland_demo/
-├── validate_orders.py                          # Entry point of the program
+├── validate_orders.py               # Entry point of the program
 ├── utils/
 │   ├── datasource.py                # Data loading layer (currently reads from CSVs)
 │   └── issue_checkers.py            # All rule-based issue detection logic
