@@ -58,3 +58,27 @@ def check_quantity_outlier(order):
         if s > 0 and order["quantity"] > m + 2 * s:
             return QUANTITY_OUTLIER
     return None
+
+def checker_task(orders_df: pd.DataFrame)-> pd.DataFrame:
+    # List to collect validation issues
+    issues = []
+
+    # Validate each order and get issue code
+    for _, order in orders_df.iterrows():
+        if issue_code := check_invalid_product_id(order):
+            issues.append({"order_id": order["order_id"], "issue_code": issue_code})
+        if issue_code := check_exceeded_inventory(order):
+            issues.append({"order_id": order["order_id"], "issue_code": issue_code})
+        if issue_code := check_missing_shipping_date(order):
+            issues.append({"order_id": order["order_id"], "issue_code": issue_code})
+        if issue_code := check_negative_quantity(order):
+            issues.append({"order_id": order["order_id"], "issue_code": issue_code})
+        if issue_code := check_price_mismatch(order):
+            issues.append({"order_id": order["order_id"], "issue_code": issue_code})
+        if issue_code := check_quantity_outlier(order):
+            issues.append({"order_id": order["order_id"], "issue_code": issue_code})
+        if issue_code := check_temporal_inconsistency(order):
+            issues.append({"order_id": order["order_id"], "issue_code": issue_code})
+
+    # Convert issue list to DataFrame
+    return pd.DataFrame(issues)

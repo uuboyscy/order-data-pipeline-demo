@@ -11,6 +11,7 @@ from utils.issue_checkers import (
     check_price_mismatch,
     check_quantity_outlier,
     check_temporal_inconsistency,
+    checker_task,
 )
 
 # Create destination folder
@@ -22,27 +23,7 @@ orders_df = e_orders()
 inventory_dict = e_inventory_dict()
 
 # List to collect validation issues
-issues = []
-
-# Validate each order and get issue code
-for _, order in orders_df.iterrows():
-    if issue_code := check_invalid_product_id(order):
-        issues.append({"order_id": order["order_id"], "issue_code": issue_code})
-    if issue_code := check_exceeded_inventory(order):
-        issues.append({"order_id": order["order_id"], "issue_code": issue_code})
-    if issue_code := check_missing_shipping_date(order):
-        issues.append({"order_id": order["order_id"], "issue_code": issue_code})
-    if issue_code := check_negative_quantity(order):
-        issues.append({"order_id": order["order_id"], "issue_code": issue_code})
-    if issue_code := check_price_mismatch(order):
-        issues.append({"order_id": order["order_id"], "issue_code": issue_code})
-    if issue_code := check_quantity_outlier(order):
-        issues.append({"order_id": order["order_id"], "issue_code": issue_code})
-    if issue_code := check_temporal_inconsistency(order):
-        issues.append({"order_id": order["order_id"], "issue_code": issue_code})
-
-# Convert issue list to DataFrame
-issues_df = pd.DataFrame(issues)
+issues_df = checker_task(orders_df)
 
 # Save invalid orders with issues
 issues_df.to_csv(OUTPUT_FOLDER / "invalid_orders.csv", index=False)
