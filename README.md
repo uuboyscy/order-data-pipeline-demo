@@ -58,6 +58,7 @@ inconsistencies [shipping date issues], Potential fraud [outliers in order quant
 
 
 ## Implementation
+> For Details, please refer to [Implementation.md](Implementation.md)
 
 ### Flow chart
 
@@ -86,4 +87,15 @@ flowchart TD
 - invalid_orders.csv: Orders with issue codes
 - all_orders_with_issue.csv: Orders joined with issue descriptions
 
-### For Details, please refer to [Implementation.md](Implementation.md)
+
+## Analyze historical patterns of inventory issues and missing order data
+
+### MART Table Ideas
+- mart_inventory_violation_summary
+    > Summarizes how often each product was ordered beyond its available inventory.
+- mart_missing_shipping_summary
+    > Counts and groups all shipped orders missing shipping dates, categorized by customer, product, and time window.
+- mart_product_fraud_risk_score
+    > Assigns a potential “fraud risk” score to products based on frequency and type of flagged issues.
+- mart_issue_distribution_by_status
+    > Distribution of issues across different order_status values.
