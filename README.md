@@ -1,5 +1,5 @@
 ## Requirement
-There are two CSV files: Orders (transactional data of customer orders) and Products (inventory 
+There are two CSV files: Orders (transactional data of customer orders) and Products (inventory
 levels for the products available for sale).
 
 ### Tasks
@@ -14,20 +14,20 @@ levels for the products available for sale).
 1. Validate the Referential Integrity:
 Ensure all product_id in orders exist in product_inventory
 2. Check Business Logic for Orders:
-Ensure quantity in orders doesn’t exceed available inventory (inventory_count in 
+Ensure quantity in orders doesn’t exceed available inventory (inventory_count in
 product_inventory)
 Detect and flag any orders with negative quantities or price discrepancies
 3. Temporal Consistency Check:
 Flag any orders where the shipping_date is earlier than the order_date
 Flag orders where the shipping date is missing (for shipped orders)
 4. Identify Potential Fraud:
-Identify any orders with quantities that deviate significantly from historical order patterns 
-for that product (e.g., more than 2 standard deviations above the average quantity ordered 
+Identify any orders with quantities that deviate significantly from historical order patterns
+for that product (e.g., more than 2 standard deviations above the average quantity ordered
 in the last 30 days)
 Detect any orders marked as "shipped" but with no corresponding shipping_date.
 5. Generate Cleaned and Validated Dataset:
 Output the clean dataset and the dataset with all identified issues and their reasons
-(Issues: Invalid product IDs, Exceeded inventory, Price mismatches, Temporal 
+(Issues: Invalid product IDs, Exceeded inventory, Price mismatches, Temporal
 inconsistencies [shipping date issues], Potential fraud [outliers in order quantity])
 
 
@@ -55,3 +55,35 @@ inconsistencies [shipping date issues], Potential fraud [outliers in order quant
 | P004        | Widget D      | Tools     | 200              | 80.00  |
 | P005        | Widget E      | Furniture | 0                | 30.00  |
 | P006        | Widget F      | Furniture | 10               | 200.00 |
+
+
+## Implementation
+
+### Flow chart
+
+```mermaid
+flowchart TD
+    A[Start] --> B[Load orders.csv]
+    A --> C[Load products.csv]
+    A --> D[Load issue_code_mapping.csv]
+    B --> E[Run issue checkers: t_checker]
+    C --> E
+    D --> F[Join orders + issues + descriptions]
+    E --> F
+    E --> G[Filter valid orders]
+    E --> H[Export invalid_orders.csv]
+    G --> I[Export valid_orders.csv]
+    F --> J[Export all_orders_with_issue.csv]
+```
+
+### Input Files (resources/)
+- orders.csv: Raw order data
+- products.csv: Product inventory information
+- issue_code_mapping.csv: Mapping of issue codes to descriptions
+
+### Output Files (output/)
+- valid_orders.csv: Cleaned valid orders
+- invalid_orders.csv: Orders with issue codes
+- all_orders_with_issue.csv: Orders joined with issue descriptions
+
+### For Details, please refer to [Implementation.md](Implementation.md)
