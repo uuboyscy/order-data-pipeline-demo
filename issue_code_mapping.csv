@@ -1,0 +1,8 @@
+issue_code,issue_name,description
+1,INVALID_PRODUCT_ID,product_id 不存在於產品庫存表
+2,EXCEEDED_INVENTORY,訂單數量超出庫存
+3,NEGATIVE_QUANTITY,訂單數量為負值
+4,PRICE_MISMATCH,訂單價格與產品價格不符
+5,TEMPORAL_INCONSISTENCY,shipping_date 早於 order_date
+6,MISSING_SHIPPING_DATE,已出貨但 shipping_date 缺失
+7,QUANTITY_OUTLIER,訂單數量為異常值
