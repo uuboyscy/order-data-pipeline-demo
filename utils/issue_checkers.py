@@ -9,7 +9,7 @@ NEGATIVE_QUANTITY = 3
 PRICE_MISMATCH = 4
 TEMPORAL_INCONSISTENCY = 5
 MISSING_SHIPPING_DATE = 6
-QUANTITY_OUTLIER = 7
+POTENTIAL_FRAUD = 7
 
 ORDERS_DF = e_orders()
 INVENTORY_DICT = e_inventory_dict()
@@ -46,7 +46,7 @@ def check_missing_shipping_date(order):
         return MISSING_SHIPPING_DATE
     return None
 
-def check_quantity_outlier(order):
+def check_potential_fraud(order):
     product_id = order["product_id"]
     historical = ORDERS_DF[
         (ORDERS_DF["product_id"] == product_id) &
@@ -56,7 +56,7 @@ def check_quantity_outlier(order):
         m = historical.mean()
         s = historical.std()
         if s > 0 and order["quantity"] > m + 2 * s:
-            return QUANTITY_OUTLIER
+            return POTENTIAL_FRAUD
     return None
 
 def t_checker(orders_df: pd.DataFrame)-> pd.DataFrame:
@@ -75,7 +75,7 @@ def t_checker(orders_df: pd.DataFrame)-> pd.DataFrame:
             issues.append({"order_id": order["order_id"], "issue_code": issue_code})
         if issue_code := check_price_mismatch(order):
             issues.append({"order_id": order["order_id"], "issue_code": issue_code})
-        if issue_code := check_quantity_outlier(order):
+        if issue_code := check_potential_fraud(order):
             issues.append({"order_id": order["order_id"], "issue_code": issue_code})
         if issue_code := check_temporal_inconsistency(order):
             issues.append({"order_id": order["order_id"], "issue_code": issue_code})

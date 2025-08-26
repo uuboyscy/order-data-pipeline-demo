@@ -5,4 +5,4 @@ issue_code,issue_name,description
 4,PRICE_MISMATCH,訂單價格與產品價格不符
 5,TEMPORAL_INCONSISTENCY,shipping_date 早於 order_date
 6,MISSING_SHIPPING_DATE,已出貨但 shipping_date 缺失
-7,QUANTITY_OUTLIER,訂單數量為異常值
+7,POTENTIAL_FRAUD,訂單數量為異常值(潛在詐騙)
