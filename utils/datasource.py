@@ -1,9 +1,15 @@
 """Function to get data source from CSV files."""
+from pathlib import Path
+
 import pandas as pd
 
+RESOURCES_FOLDER = Path("resources/")
 
 def e_orders() -> pd.DataFrame:
-    return pd.read_csv("orders.csv", parse_dates=["order_date", "shipping_date"])
+    return pd.read_csv(RESOURCES_FOLDER / "orders.csv", parse_dates=["order_date", "shipping_date"])
+
+def e_issue_code_mapping() -> pd.DataFrame:
+    return pd.read_csv(RESOURCES_FOLDER / "issue_code_mapping.csv")
 
 def e_inventory_dict() -> dict:
     """
@@ -18,5 +24,5 @@ def e_inventory_dict() -> dict:
     }
     ```
     """
-    products = pd.read_csv("products.csv")
+    products = pd.read_csv(RESOURCES_FOLDER / "products.csv")
     return products.set_index("product_id").to_dict("index")
