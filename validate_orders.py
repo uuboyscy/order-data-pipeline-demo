@@ -3,16 +3,7 @@ from pathlib import Path
 import pandas as pd
 
 from utils.datasource import e_inventory_dict, e_orders
-from utils.issue_checkers import (
-    check_exceeded_inventory,
-    check_invalid_product_id,
-    check_missing_shipping_date,
-    check_negative_quantity,
-    check_price_mismatch,
-    check_quantity_outlier,
-    check_temporal_inconsistency,
-    checker_task,
-)
+from utils.issue_checkers import checker_task
 
 # Create destination folder
 OUTPUT_FOLDER = Path("output/")
