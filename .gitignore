@@ -162,6 +162,5 @@ cython_debug/
 #.idea/
 
 # project
-.env
 tmp/
-.offset
+.vscode
