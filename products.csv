@@ -1,0 +1,7 @@
+product_id,product_name,category,inventory_count,price
+P001,Widget A,Gadgets,100,100.00
+P002,Widget B,Gadgets,50,120.00
+P003,Widget C,Tools,30,50.00
+P004,Widget D,Tools,200,80.00
+P005,Widget E,Furniture,0,30.00
+P006,Widget F,Furniture,10,200.00
