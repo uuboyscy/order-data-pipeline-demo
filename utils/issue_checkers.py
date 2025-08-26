@@ -14,39 +14,39 @@ POTENTIAL_FRAUD = 7
 ORDERS_DF = e_orders()
 INVENTORY_DICT = e_inventory_dict()
 
-def check_invalid_product_id(order):
+def check_invalid_product_id(order: pd.Series):
     if order["product_id"] not in INVENTORY_DICT:
         return INVALID_PRODUCT_ID
     return None
 
-def check_exceeded_inventory(order):
+def check_exceeded_inventory(order: pd.Series):
     product = INVENTORY_DICT.get(order["product_id"])
     if product and order["quantity"] > product["inventory_count"]:
         return EXCEEDED_INVENTORY
     return None
 
-def check_negative_quantity(order):
+def check_negative_quantity(order: pd.Series):
     if order["quantity"] < 0:
         return NEGATIVE_QUANTITY
     return None
 
-def check_price_mismatch(order):
+def check_price_mismatch(order: pd.Series):
     product = INVENTORY_DICT.get(order["product_id"])
     if product and order["price"] != product["price"]:
         return PRICE_MISMATCH
     return None
 
-def check_temporal_inconsistency(order):
+def check_temporal_inconsistency(order: pd.Series):
     if pd.notna(order["shipping_date"]) and order["shipping_date"] < order["order_date"]:
         return TEMPORAL_INCONSISTENCY
     return None
 
-def check_missing_shipping_date(order):
+def check_missing_shipping_date(order: pd.Series):
     if order["order_status"] == "Shipped" and pd.isna(order["shipping_date"]):
         return MISSING_SHIPPING_DATE
     return None
 
-def check_potential_fraud(order):
+def check_potential_fraud(order: pd.Series):
     product_id = order["product_id"]
     historical = ORDERS_DF[
         (ORDERS_DF["product_id"] == product_id) &
